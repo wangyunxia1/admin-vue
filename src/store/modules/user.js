@@ -51,22 +51,20 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.token).then(response => {
         const data = response.obj
-
-        console.log(data.item)
-
         if (!data) {
           reject('验证失败，请重新登录.')
         }
-
-        // const { roles, name, avatar, introduction } = data
-
         // roles must be a non-empty array
         // if (!roles || roles.length <= 0) {
         //   reject('getInfo: 角色必须是非空数组!')
         // }
-        commit('SET_ROLES', data.item)
-        // commit('SET_ROLES', roles)
-        // commit('SET_NAME', name)
+        // commit('SET_ROLES', data.item)
+        // const datas = data.obj;
+        // console.log(datas);
+        let roles = [];
+        roles.push(data.role_id)
+        commit('SET_ROLES', roles)
+        commit('SET_NAME', data.name)
         // commit('SET_AVATAR', avatar)
         // commit('SET_INTRODUCTION', introduction)
         resolve(data)
