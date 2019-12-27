@@ -4,7 +4,7 @@
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
+        <navbar @changePassword="changePassword" />
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
@@ -12,6 +12,25 @@
         <settings />
       </right-panel>
     </div>
+    <el-dialog :visible.sync="resetPassword" title="重置密码" width="500px">
+      <div class="dialog-form ">
+        <el-form :model="passwordForm" label-width="80px" label-position="right">
+          <el-form-item label="原密码">
+            <el-input v-model="passwordForm.old" placeholder="" />
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input v-model="passwordForm.new" placeholder="" />
+          </el-form-item>
+          <el-form-item label="确认密码">
+            <el-input v-model="passwordForm.confirm" placeholder="" />
+          </el-form-item>
+        </el-form>
+      </div>
+      <div style="text-align:center;">
+        <el-button type="danger" @click="resetPassword=false">取消</el-button>
+        <el-button type="primary" @click="confirmRole">确定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -32,6 +51,16 @@ export default {
     TagsView
   },
   mixins: [ResizeMixin],
+  data() {
+    return {
+      resetPassword: false,
+      passwordForm: {
+        old: '',
+        new: '',
+        confirm: ''
+      }
+    }
+  },
   computed: {
     ...mapState({
       sidebar: state => state.app.sidebar,
@@ -52,6 +81,12 @@ export default {
   methods: {
     handleClickOutside() {
       this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+    },
+    changePassword() {
+      this.resetPassword = true
+    },
+    confirmRole() {
+
     }
   }
 }

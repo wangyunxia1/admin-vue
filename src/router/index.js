@@ -7,10 +7,10 @@ Vue.use(Router)
 import Layout from '@/layout'
 
 /* Router Modules */
-import componentsRouter from './modules/components'
-import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
-import nestedRouter from './modules/nested'
+// import componentsRouter from './modules/components'
+// import chartsRouter from './modules/charts'
+// import tableRouter from './modules/table'
+// import nestedRouter from './modules/nested'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -74,12 +74,15 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    meta:{
+      roles: ['admin', 'editor']
+    },
     children: [
       {
         path: 'dashboard',
         component: () => import('@/views/dashboard/index'),
         name: 'Dashboard',
-        meta: { title: '首页', icon: require('../assets/img/icon-1.png'), affix: true ,roles: ['admin'] }
+        meta: { title: '首页', icon: require('../assets/img/icon-1.png'), affix: true ,}
       }
     ]
   }
@@ -130,6 +133,22 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   meta:{
+  //     roles: ['admin', 'editor']
+  //   },
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       component: () => import('@/views/dashboard/index'),
+  //       name: 'Dashboard',
+  //       meta: { title: '首页', icon: require('../assets/img/icon-1.png'), affix: true ,}
+  //     }
+  //   ]
+  // },
   {
     path: '/service-provider-management',
     component: Layout,
@@ -168,18 +187,7 @@ export const asyncRoutes = [
       }
     ]
   },
-  {
-    path: '/page-permission',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/permission/page'),
-        name: 'Permission',
-        meta: { title: '系统权限管理', icon: require('../assets/img/icon-5.png'), noCache: true }
-      }
-    ]
-  },
+
   {
     path: '/role-permission',
     component: Layout,
@@ -193,6 +201,18 @@ export const asyncRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/page-permission',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/permission/page'),
+  //       name: 'Permission',
+  //       meta: { title: '系统权限管理', icon: require('../assets/img/icon-5.png'), noCache: true }
+  //     }
+  //   ]
+  // },
   {
     path: '/menu-manage',
     component: Layout,
@@ -210,6 +230,7 @@ export const asyncRoutes = [
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
+    hidden: true,
     alwaysShow: true, // will always show the root menu
     name: 'Permission',
     meta: {
@@ -263,10 +284,10 @@ export const asyncRoutes = [
   },
 
   /** when your routing map is too long, you can split it into small modules **/
-  componentsRouter,
-  chartsRouter,
-  nestedRouter,
-  tableRouter,
+  // componentsRouter,
+  // chartsRouter,
+  // nestedRouter,
+  // tableRouter,
 
   {
     path: '/example',

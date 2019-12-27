@@ -93,3 +93,24 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .menu-wrapper>>>.el-menu-item,
+  .menu-wrapper>>>.el-submenu
+  {
+    img{
+      margin-right: 10px;
+	    // margin-left: 15px;
+    }
+  }
+  .menu-wrapper>>>.el-menu-item.is-active{
+    img{
+      filter: brightness(2);
+    }
+  }
+  .menu-wrapper>>>.el-submenu.is-opened{
+    img{
+      filter: brightness(2);
+    }
+  }
+</style>

@@ -10,14 +10,15 @@ $panGreen: #30B08F;
 
 // sidebar
 $menuText:#bfcbd9;
-$menuActiveText:#409EFF;
+$menuActiveText:#ffffff;
 $subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
 
-$menuBg:#304156;
-$menuHover:#263445;
+$menuBg:#2b324f;
+$menuHover:#505872;
 
 $subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+$subMenuHover:#505872;
+$subMenuActive:#505872;
 
 $sideBarWidth: 210px;
 
@@ -31,5 +32,6 @@ $sideBarWidth: 210px;
   menuHover: $menuHover;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
+  subMenuActive:$subMenuActive;
   sideBarWidth: $sideBarWidth;
 }

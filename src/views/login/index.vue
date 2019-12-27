@@ -99,7 +99,6 @@ export default {
   watch: {
     $route: {
       handler: function(route) {
-        console.log(route)
         const query = route.query
         if (query) {
           this.redirect = query.redirect
@@ -168,7 +167,6 @@ export default {
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
-        console.log('cur:' + cur)
         if (cur !== 'redirect') {
           acc[cur] = query[cur]
         }

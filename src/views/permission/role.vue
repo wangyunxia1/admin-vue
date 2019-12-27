@@ -1,60 +1,65 @@
 <template>
-  <div class="app-container">
-    <el-button type="primary" @click="handleAddRole">New Role</el-button>
+  <div class="app-container" v-loading="loading">
+    <el-button type="primary" @click="handleRefresh"><svg-icon icon-class="refresh" />&emsp;刷新</el-button>
+    <div class="panel" style="margin-top:20px;">
+      <el-table :data="tableData" style="width: 100%;margin-top:10px;" border>
+        <el-table-column
+          align="center"
+          type="selection"
+          width="50"
+        />
+        <el-table-column align="left" label="角色名称" min-width="100">
+          <template slot-scope="scope">
+            {{ scope.row.name }}
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="公司类型" min-width="200">
+          <template slot-scope="scope">
+            {{ scope.row.type }}
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="员工等级" min-width="100">
+          <template slot-scope="scope">
+            {{ scope.row.level }}
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="创建时间" min-width="280">
+          <template slot-scope="scope">
+            {{ scope.row.createtime }}
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="操作" min-width="200">
+          <template slot-scope="scope">
+            <el-button type="primary" size="small" @click="handleAddRole(scope)">分配权限</el-button>
+            <el-button type="danger" size="small" @click="handleEdit(scope)">编辑</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
 
-    <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
-      <el-table-column align="center" label="Role Key" width="220">
-        <template slot-scope="scope">
-          {{ scope.row.key }}
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="Role Name" width="220">
-        <template slot-scope="scope">
-          {{ scope.row.name }}
-        </template>
-      </el-table-column>
-      <el-table-column align="header-center" label="Description">
-        <template slot-scope="scope">
-          {{ scope.row.description }}
-        </template>
-      </el-table-column>
-      <el-table-column align="center" label="Operations">
-        <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">Edit</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'Edit Role':'New Role'">
-      <el-form :model="role" label-width="80px" label-position="left">
-        <el-form-item label="Name">
-          <el-input v-model="role.name" placeholder="Role Name" />
-        </el-form-item>
-        <el-form-item label="Desc">
-          <el-input
-            v-model="role.description"
-            :autosize="{ minRows: 2, maxRows: 4}"
-            type="textarea"
-            placeholder="Role Description"
-          />
-        </el-form-item>
-        <el-form-item label="Menus">
-          <el-tree
-            ref="tree"
-            :check-strictly="checkStrictly"
-            :data="routesData"
-            :props="defaultProps"
-            show-checkbox
-            node-key="path"
-            class="permission-tree"
-          />
-        </el-form-item>
-      </el-form>
-      <div style="text-align:right;">
-        <el-button type="danger" @click="dialogVisible=false">Cancel</el-button>
-        <el-button type="primary" @click="confirmRole">Confirm</el-button>
+    <el-dialog :visible.sync="dialogVisible" :title="dialogType==='edit'?'编辑角色':'分配权限'" width="500px">
+      <div class="dialog-form ">
+        <el-form :model="role" label-width="70px" label-position="right">
+          <el-form-item v-show="dialogType==='edit'?true:false" label="角色名称">
+            <el-input v-model="role.name" placeholder="角色名称" />
+          </el-form-item>
+          <el-form-item v-show="dialogType==='edit'?false:true" label="菜单">
+            <el-tree
+              ref="tree"
+              :check-strictly="checkStrictly"
+              :data="routesData"
+              :props="defaultProps"
+              show-checkbox
+              node-key="path"
+              class="permission-tree"
+            />
+          </el-form-item>
+        </el-form>
       </div>
+     <!-- <div style="text-align:center;">
+        <el-button type="danger" @click="dialogVisible=false">取消</el-button>
+        <el-button type="primary" @click="confirmRole">确定</el-button>
+      </div> -->
     </el-dialog>
   </div>
 </template>
@@ -73,12 +78,41 @@ const defaultRole = {
 
 export default {
   data() {
+
     return {
+      loading:false,
+      tableData: [
+        {
+          name: '超级管理员',
+          type: '服务商',
+          level: '高级',
+          createtime: '2019-10-27 17:49:42'
+        }, {
+          name: 'OEM服务商',
+          type: '一级代理商',
+          level: '高级',
+          createtime: '2019-10-27 17:49:42'
+        }, {
+          name: '超级管理员',
+          type: '服务商',
+          level: '高级',
+          createtime: '2019-10-27 17:49:42'
+        }, {
+          name: '超级管理员',
+          type: '服务商',
+          level: '高级',
+          createtime: '2019-10-27 17:49:42'
+        }, {
+          name: '超级管理员',
+          type: '服务商',
+          level: '高级',
+          createtime: '2019-10-27 17:49:42'
+        }],
       role: Object.assign({}, defaultRole),
       routes: [],
       rolesList: [],
       dialogVisible: false,
-      dialogType: 'new',
+      dialogType: 'distribute',
       checkStrictly: false,
       defaultProps: {
         children: 'children',
@@ -97,43 +131,46 @@ export default {
     this.getRoles()
   },
   methods: {
+    handleRefresh() {  //刷新
+      this.loading = true;
+      setTimeout(()=>{
+        this.getRoutes();
+        this.loading = false
+      },1000)
+
+      // this.$router.go(0);
+    },
     async getRoutes() {
-      const res = await getRoutes()
+      const res = await getRoutes() // 等getRoutes()函数执行完毕，得到的值赋给res
+      // console.log(res.data)
       this.serviceRoutes = res.data
       this.routes = this.generateRoutes(res.data)
     },
-    async getRoles() {
-      const res = await getRoles()
-      this.rolesList = res.data
-    },
-
-    // Reshape the routes structure so that it looks the same as the sidebar
+    // 重塑路由结构，使其看起来与侧边栏相同
     generateRoutes(routes, basePath = '/') {
+      console.log(0)
       const res = []
-
       for (let route of routes) {
-        // skip some route
-        if (route.hidden) { continue }
-
+        if (route.hidden) { continue }// skip some route
         const onlyOneShowingChild = this.onlyOneShowingChild(route.children, route)
-
         if (route.children && onlyOneShowingChild && !route.alwaysShow) {
           route = onlyOneShowingChild
         }
-
         const data = {
           path: path.resolve(basePath, route.path),
           title: route.meta && route.meta.title
-
         }
-
-        // recursive child routes
-        if (route.children) {
+        if (route.children) {// 递归子路由
           data.children = this.generateRoutes(route.children, data.path)
         }
         res.push(data)
       }
+      console.log(res)
       return res
+    },
+    async getRoles() {
+      const res = await getRoles()
+      this.rolesList = res.data
     },
     generateArr(routes) {
       let data = []
@@ -148,15 +185,15 @@ export default {
       })
       return data
     },
-    handleAddRole() {
+    handleAddRole() { // 分配权限
       this.role = Object.assign({}, defaultRole)
       if (this.$refs.tree) {
         this.$refs.tree.setCheckedNodes([])
       }
-      this.dialogType = 'new'
+      this.dialogType = 'distribute'
       this.dialogVisible = true
     },
-    handleEdit(scope) {
+    handleEdit(scope) { // 编辑
       this.dialogType = 'edit'
       this.dialogVisible = true
       this.checkStrictly = true
@@ -168,22 +205,22 @@ export default {
         this.checkStrictly = false
       })
     },
-    handleDelete({ $index, row }) {
-      this.$confirm('Confirm to remove the role?', 'Warning', {
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      })
-        .then(async() => {
-          await deleteRole(row.key)
-          this.rolesList.splice($index, 1)
-          this.$message({
-            type: 'success',
-            message: 'Delete succed!'
-          })
-        })
-        .catch(err => { console.error(err) })
-    },
+    // handleDelete({ $index, row }) {
+    //   this.$confirm('Confirm to remove the role?', 'Warning', {
+    //     confirmButtonText: 'Confirm',
+    //     cancelButtonText: 'Cancel',
+    //     type: 'warning'
+    //   })
+    //     .then(async() => {
+    //       await deleteRole(row.key)
+    //       this.rolesList.splice($index, 1)
+    //       this.$message({
+    //         type: 'success',
+    //         message: 'Delete succed!'
+    //       })
+    //     })
+    //     .catch(err => { console.error(err) })
+    // },
     generateTree(routes, basePath = '/', checkedKeys) {
       const res = []
 
@@ -225,7 +262,7 @@ export default {
       this.dialogVisible = false
       this.$notify({
         title: 'Success',
-        // dangerouslyUseHTMLString: true,
+        dangerouslyUseHTMLString: true,
         message: `
             <div>Role Key: ${key}</div>
             <div>Role Name: ${name}</div>
@@ -265,6 +302,9 @@ export default {
   }
   .permission-tree {
     margin-bottom: 30px;
+  }
+  .dialog-form>>>.el-form-item--medium .el-form-item__label{
+    // line-height: 26px;
   }
 }
 </style>

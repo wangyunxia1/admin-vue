@@ -5,6 +5,34 @@
     transition: margin-left .28s;
     margin-left: $sideBarWidth;
     position: relative;
+    background: #f0f3f5;
+    .panel{
+      background: #fff;
+      padding: 20px;
+    }
+    .pagination-container{
+      text-align: center;
+      margin-top: 30px;
+    }
+    .el-button--small{
+      padding:7px 16px;
+      font-size: 14px;
+    }
+    .el-table thead{
+      color: #999999;
+    }
+    .dialog-form{
+      max-height: 60vh;
+      overflow-y: auto;
+
+    }
+    .el-dialog__body .el-input{
+      width: 380px;
+    }
+    .el-form-item__label{
+      padding: 0 9px 0 0;
+      font-weight: normal;
+    }
   }
 
   .sidebar-container {
@@ -46,7 +74,6 @@
     .is-horizontal {
       display: none;
     }
-
     a {
       display: inline-block;
       width: 100%;
@@ -79,11 +106,13 @@
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
       background-color: $subMenuBg !important;
-
       &:hover {
         background-color: $subMenuHover !important;
       }
     }
+	& .el-menu-item.is-active{
+		background: $subMenuActive !important;
+	}
   }
 
   .hideSidebar {
@@ -101,9 +130,8 @@
 
       .el-tooltip {
         padding: 0 !important;
-
-        .svg-icon {
-          margin-left: 20px;
+        img {
+          margin-left: 15px;
         }
       }
     }
@@ -114,8 +142,8 @@
       &>.el-submenu__title {
         padding: 0 !important;
 
-        .svg-icon {
-          margin-left: 20px;
+        img {
+          margin-left: 15px;
         }
 
         .el-submenu__icon-arrow {

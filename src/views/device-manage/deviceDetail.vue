@@ -1,27 +1,80 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" class="backlist" @click="backList"><svg-icon icon-class="back" />&nbsp;返回列表</el-button>
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item>
-        <el-input v-model="formInline.company" placeholder="订单号" />
-      </el-form-item>
-      <el-form-item>
-        <el-input v-model="formInline.company" placeholder="收银员" />
-      </el-form-item>
-      <el-form-item>
-        <el-date-picker
-          v-model="value1"
-          type="daterange"
-          range-separator="~"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="onSubmit"><svg-icon icon-class="search" />&nbsp;搜索</el-button>
-        <el-button type="primary" @click="onSubmit"><svg-icon icon-class="download" />&nbsp;导出</el-button>
-      </el-form-item>
+    <el-form :inline="false" :model="formInline" class="demo-form-inline">
+    <el-row :gutter="10">
+      <el-col :xs="12" :sm="6" :lg="4">
+        <el-form-item>
+          <el-input v-model="formInline.company" placeholder="订单号" />
+        </el-form-item>
+      </el-col>
+       <el-col :xs="12" :sm="6" :lg="4">
+         <el-form-item>
+           <el-input v-model="formInline.company" placeholder="收银员" />
+         </el-form-item>
+       </el-col>
+       <el-col :xs="24" :sm="10" :lg="8">
+         <el-form-item>
+           <el-date-picker
+             v-model="value1"
+             type="daterange"
+             range-separator="~"
+             start-placeholder="开始日期"
+             end-placeholder="结束日期"
+           />
+         </el-form-item>
+       </el-col>
+       <el-col :xs="4" :sm="4" :lg="2" style="text-align: left;">
+         <el-form-item>
+          <el-button type="primary" @click="onSubmit"><svg-icon icon-class="search" />&nbsp;搜索</el-button>
+         </el-form-item>
+       </el-col>
+       <el-col :xs="4" :sm="4" :lg="2" style="text-align: left;">
+         <el-form-item>
+          <el-button type="primary" @click="onSubmit"><svg-icon icon-class="download" />&nbsp;导出</el-button>
+         </el-form-item>
+       </el-col>
+       <el-col :xs="4" :sm="4" :lg="4" style="text-align: right;">
+         <el-form-item>
+         <el-button type="primary" class="backlist" @click="backList"><svg-icon icon-class="back" />&nbsp;返回列表</el-button>
+          </el-form-item>
+       </el-col>
+
+
+
+        <!--  <el-form-item>
+            <el-button type="primary" @click="onSubmit"><svg-icon icon-class="search" />&nbsp;搜索</el-button>
+            <el-button type="primary" @click="onSubmit"><svg-icon icon-class="download" />&nbsp;导出</el-button>
+          </el-form-item>
+
+        <el-button type="primary" class="backlist" @click="backList"><svg-icon icon-class="back" />&nbsp;返回列表</el-button>
+    -->
+    </el-row>
     </el-form>
+  <!--  <div class="clearfix">
+      <el-form :inline="true" :model="formInline" class="demo-form-inline">
+        <el-form-item>
+          <el-input v-model="formInline.company" placeholder="订单号" />
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="formInline.company" placeholder="收银员" />
+        </el-form-item>
+        <el-form-item>
+          <el-date-picker
+            v-model="value1"
+            type="daterange"
+            range-separator="~"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="onSubmit"><svg-icon icon-class="search" />&nbsp;搜索</el-button>
+          <el-button type="primary" @click="onSubmit"><svg-icon icon-class="download" />&nbsp;导出</el-button>
+        </el-form-item>
+      </el-form>
+      <el-button type="primary" class="backlist" @click="backList"><svg-icon icon-class="back" />&nbsp;返回列表</el-button>
+    </div> -->
+
 
     <div class="statis-order">
       <span>订单总数：</span>
@@ -194,6 +247,7 @@ export default {
 <style lang="scss" scoped>
 .app-container {
   position: relative;
+  .clearfix{display: block;content: '';clear: both;}
   .roles-table {
     margin-top: 30px;
   }
@@ -208,10 +262,14 @@ export default {
   &>>> .el-form-item__content .el-input-group{
     width: 150px !important;
   }
+  .demo-form-inline{
+    // float: left;
+  }
   .backlist{
-      position: absolute;
-      top: 20px;
-      right: 20px;
+    // float: right;
+      // position: absolute;
+      // top: 20px;
+      // right: 20px;
   }
   .statis-order{
     background: #2b324f;
